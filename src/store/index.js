@@ -5,9 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    curContent: {
-      title: 'JUST THE DEFAULT MESSAGE',
-    },
+    curContent: {},
   },
   getters: {
     curContent: (state) => state.curContent,

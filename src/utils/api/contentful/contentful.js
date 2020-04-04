@@ -78,14 +78,18 @@ class APIContentful {
       select: 'fields',
     };
     const res = await http.get(this.resource, { params: query });
-    // return res;
     const childPowers = res.data.items.map((i) => ({
       cost: i.fields.cost || null,
+      errata: this.extractFieldValue(i.fields.errata),
+      exceptionalLong: this.extractFieldValue(i.fields.exceptionalLong),
+      foci: i.fields.foci || null,
+      focusDescriptor: this.extractFieldValue(i.fields.focusDescriptor),
       level: i.fields.level || null,
       power: i.fields.power || null,
       summary: this.extractFieldValue(i.fields.summary),
       system: this.extractFieldValue(i.fields.system),
-      title: i.fields.title || null,
+      testPool: i.fields.testPool || null,
+      title: i.fields.title.trim() || null,
     }));
     return childPowers;
   }
