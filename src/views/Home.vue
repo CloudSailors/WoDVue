@@ -2,7 +2,7 @@
   <div class="home">
     <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
     <!-- <HelloWorld msg="Welcome to Your Vue.js App" /> -->
-    <cHome msg="Welcome To One World Of Darkness Bob"></cHome>
+    <cHome msg="Welcome To One World Of Darkness"></cHome>
   </div>
 </template>
 
@@ -11,7 +11,7 @@
 import cHome from '../components/Home.vue';
 
 export default {
-  name: 'Home',
+  name: 'vHome',
   components: {
     cHome,
   },

@@ -1,17 +1,24 @@
 <template>
   <div class="home">
-    <Vampire msg="YAR" />
+    <cVampire :navItems="data.vampireNavItems" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Vampire from '../components/Vampire.vue';
+import cVampire from '../components/vampire/Vampire.vue';
 
 export default {
   name: 'vVampire',
+  data() {
+    return {
+      data: {
+        vampireNavItems: process.env.VUE_APP_VAMPIRE_NAVITEMS,
+      },
+    };
+  },
   components: {
-    Vampire,
+    cVampire,
   },
 };
 </script>

@@ -9,6 +9,11 @@ module.exports = {
     parser: 'babel-eslint',
   },
   rules: {
+    'no-param-reassign': 0,
+    'no-restricted-syntax': 0,
+    'function-paren-newline': 0,
+    'object-shorthand': 0,
+    'class-methods-use-this': 0,
     'linebreak-style': 0,
     'implicit-arrow-linebreak': 0,
     'operator-linebreak': 0,

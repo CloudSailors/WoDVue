@@ -22,6 +22,7 @@
   padding: 30px;
 
   a {
+    padding-right: 5px;
     font-weight: bold;
     color: #2c3e50;
 
