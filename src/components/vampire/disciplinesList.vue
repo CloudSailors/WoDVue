@@ -62,7 +62,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .leftNav {
-  position: fixed; /* Stay in place */
+  position: fixed;
   left: 0;
+  height: 100%;
+  overflow: auto;
 }
 </style>
