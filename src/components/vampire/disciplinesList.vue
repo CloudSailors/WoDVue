@@ -1,6 +1,9 @@
 <template>
   <div class="leftNav">
-    <b-nav vertical v-if="curNavItem === 'disciplines'">
+    <b-nav
+      vertical
+      v-if="curNavItem === 'disciplines' && disciplineData.length"
+    >
       <div v-for="(parentDiscipline, idx) in disciplineData" :key="idx">
         <b-button-toolbar key-nav>
           <b-button-group class="mx-1">
@@ -66,5 +69,6 @@ export default {
   left: 0;
   height: 100%;
   overflow: auto;
+  width: 100%;
 }
 </style>

@@ -26,19 +26,19 @@ class APIContentful {
     const resParentDisciplines = await http.get(this.resource, {
       params: query,
     });
-
     const parentDisciplines = resParentDisciplines.data.items
       .map((i) => ({
         expand: false,
-        cost: i.fields.cost || null,
-        foci: i.fields.foci || null,
+        content_type: query.content_type,
+        cost: this.getTrimmedValue(i.fields.cost),
+        foci: this.getTrimmedValue(i.fields.foci),
         level: i.fields.level || null,
-        power: i.fields.power || null,
-        quote: this.extractFieldValue(i.fields.quote) || null,
-        summary: this.extractFieldValue(i.fields.summary) || null,
-        system: this.extractFieldValue(i.fields.system) || null,
-        testPool: i.fields.testPool || null,
-        title: i.fields.title || null,
+        power: this.getTrimmedValue(i.fields.power),
+        quote: this.extractFieldValue(i.fields.quote),
+        summary: this.extractFieldValue(i.fields.summary),
+        system: this.extractFieldValue(i.fields.system),
+        testPool: this.getTrimmedValue(i.fields.testPool),
+        title: this.getTrimmedValue(i.fields.title),
         children: [],
       }))
       .sort((a, b) => {
@@ -79,17 +79,18 @@ class APIContentful {
     };
     const res = await http.get(this.resource, { params: query });
     const childPowers = res.data.items.map((i) => ({
-      cost: i.fields.cost || null,
+      content_type: query.content_type,
+      cost: this.getTrimmedValue(i.fields.cost),
       errata: this.extractFieldValue(i.fields.errata),
       exceptionalLong: this.extractFieldValue(i.fields.exceptionalLong),
-      foci: i.fields.foci || null,
+      foci: this.getTrimmedValue(i.fields.foci),
       focusDescriptor: this.extractFieldValue(i.fields.focusDescriptor),
       level: i.fields.level || null,
-      power: i.fields.power || null,
+      power: this.getTrimmedValue(i.fields.power),
       summary: this.extractFieldValue(i.fields.summary),
       system: this.extractFieldValue(i.fields.system),
-      testPool: i.fields.testPool || null,
-      title: i.fields.title.trim() || null,
+      testPool: this.getTrimmedValue(i.fields.testPool),
+      title: this.getTrimmedValue(i.fields.title),
     }));
     return childPowers;
   }
@@ -103,6 +104,10 @@ class APIContentful {
     return http.get(this.resource, {
       params: query,
     });
+  }
+
+  getTrimmedValue(field) {
+    return field ? field.trim() : null;
   }
 
   extractFieldValue(fieldObj) {
