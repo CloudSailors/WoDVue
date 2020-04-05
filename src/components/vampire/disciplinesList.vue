@@ -53,7 +53,6 @@ export default {
   },
   methods: {
     clickExpand: function clickExpand(parentDiscipline) {
-      // console.dir(parentDiscipline.expand);
       parentDiscipline.expand = !parentDiscipline.expand;
     },
   },

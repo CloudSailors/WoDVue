@@ -58,9 +58,4 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-// .mainContent {
-//   top: 1000px;
-//   left: 700px;
-// }
-</style>
+<style scoped lang="scss"></style>

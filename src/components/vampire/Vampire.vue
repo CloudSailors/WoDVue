@@ -33,7 +33,7 @@ export default {
       curNavItem: 'disciplines',
     };
   },
-  async mounted() {
+  mounted() {
     this.navItemsArray = this.$props.navItems.split(',');
   },
   methods: {

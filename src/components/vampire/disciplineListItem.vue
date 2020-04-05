@@ -19,7 +19,6 @@ export default {
   mounted() {},
   methods: {
     showDetails: function showDetails() {
-      // console.log(`showDetails for ${this.disciplineObj.title}`);
       this.$store.commit('updateContent', this.disciplineObj);
     },
   },
