@@ -61,7 +61,7 @@ class APIContentful {
       console.log(
         `Error : getContentByType : getContentTypeInfo is null for contentType ${contentType}`,
       );
-      return null;
+      return [];
     }
     const {
       contentTypeId,
@@ -95,7 +95,6 @@ class APIContentful {
       resourceEntries,
       queryGetParentEntries,
     );
-    // console.dir(resParentEntries);
     return this.extractEntryDataFromResponse(
       resParentEntries,
       contentType,
@@ -126,12 +125,6 @@ class APIContentful {
         (ce) => ce.length > 0 && ce[0][parentKeyField] === pe[parentKeyField],
       );
       pe.children = childrenIdx === -1 ? [] : allChildEntries[childrenIdx];
-      // pe.children =
-      //   childrenIdx === -1
-      //     ? []
-      //     : allChildEntries[childrenIdx].sort(
-      //         (a, b) => a[sortChild] - b[sortChild],
-      //       );
     });
 
     return parentEntries;

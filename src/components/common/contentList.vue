@@ -51,12 +51,14 @@ export default {
     },
   },
   watch: {
-    async curNavItem(newValue) {
-      // console.log(`curNavItem Changed! : ${newValue}`);
+    async curNavItem(newCurNavItem) {
       // we take the curNavItem and use it to load the requested data
       this.contentListData = await apiContentful.getContentbyTypeAsync(
-        newValue,
+        newCurNavItem,
       );
+      if (!this.contentListData || this.contentListData.length === 0) {
+        this.$store.commit('updateContent', null);
+      }
     },
   },
   components: {

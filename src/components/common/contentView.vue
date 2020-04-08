@@ -1,6 +1,6 @@
 <template>
   <span class="mainContent">
-    <p v-for="(item, idx) in displayContent" :key="`parent_${idx}`">
+    <p v-for="(item, idx) in displayContent" :key="`content_${idx}`">
       <span style="font-weight:bold">{{ item.displayLabel }}: </span>
       {{ item.value }}
     </p>
@@ -15,6 +15,7 @@ export default {
   data() {
     return {
       displayContent: [],
+      noContent: [{ displayLabel: 'My Apologies', value: 'No content yet' }],
     };
   },
   computed: {
@@ -44,7 +45,9 @@ export default {
   },
   watch: {
     curContent(newContent) {
-      this.displayContent = this.processContent(newContent);
+      this.displayContent = newContent
+        ? this.processContent(newContent)
+        : this.noContent;
     },
   },
 };

@@ -4,7 +4,7 @@
       <router-link to="/">Home</router-link>
       <router-link
         v-for="(monster, idx) in monsterTypes"
-        :key="idx"
+        :key="`monster_${idx}`"
         :to="`/${monster}`"
         >{{ monsterNavTitles[idx] }}</router-link
       >
