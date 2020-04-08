@@ -2,12 +2,29 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link>
-      <router-link to="/vampire">Vampire</router-link>
-      <router-link to="/about">About</router-link>
+      <router-link
+        v-for="(monster, idx) in monsterTypes"
+        :key="idx"
+        :to="`/${monster}`"
+        >{{ monsterNavTitles[idx] }}</router-link
+      >
+      <!-- <router-link to="/about">About</router-link> -->
     </div>
     <router-view />
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      monsterTypes: process.env.VUE_APP_MONSTER_TYPES.split(','),
+      monsterNavTitles: process.env.VUE_APP_MONSTER_NAVTITLES.split(','),
+    };
+  },
+  mounted() {},
+};
+</script>
 
 <style lang="scss">
 #app {

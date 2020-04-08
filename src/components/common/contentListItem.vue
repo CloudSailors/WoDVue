@@ -1,16 +1,14 @@
 <template>
   <b-button-group class="mx-1">
-    <b-nav-item v-on:click="showDetails()">{{
-      disciplineObj.title
-    }}</b-nav-item>
+    <b-nav-item v-on:click="showDetails()">{{ contentData.title }}</b-nav-item>
   </b-button-group>
 </template>
 
 <script>
 export default {
-  name: 'cDisciplineListItem',
+  name: 'cContentListItem',
   props: {
-    disciplineObj: Object,
+    contentData: Object,
   },
   components: {},
   data() {
@@ -19,7 +17,7 @@ export default {
   mounted() {},
   methods: {
     showDetails: function showDetails() {
-      this.$store.commit('updateContent', this.disciplineObj);
+      this.$store.commit('updateContent', this.contentData);
     },
   },
 };

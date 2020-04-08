@@ -9,6 +9,7 @@ module.exports = {
     parser: 'babel-eslint',
   },
   rules: {
+    'no-restricted-globals': 0,
     'no-param-reassign': 0,
     'no-restricted-syntax': 0,
     'function-paren-newline': 0,
