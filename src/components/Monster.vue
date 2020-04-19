@@ -6,7 +6,7 @@
         :key="`${navItem}_${idx}`"
         active
         v-on:click="clickNavItem(navItem)"
-        >{{ navItem }}</b-nav-item
+        >{{ navItem.text }}</b-nav-item
       >
     </b-nav>
     <cContentList :curNavItem="curTopNavItem"></cContentList>
@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       topNavItems: [],
-      curTopNavItem: '',
+      curTopNavItem: {},
     };
   },
   computed: {
@@ -35,18 +35,24 @@ export default {
   mounted() {
     if (this.curMonster) {
       const envName = `VUE_APP_${this.curMonster.toUpperCase()}_TOPNAVITEMS`;
-      this.topNavItems = process.env[envName].split(',');
+      this.topNavItems = this.processNavItems(process.env[envName]);
     }
   },
   methods: {
     clickNavItem: function clickNavItem(navItemClicked) {
       this.curTopNavItem = navItemClicked;
     },
+    processNavItems: function processNavItems(navItemsString) {
+      return navItemsString
+        .split(',')
+        .map((ni) => ni.split('|'))
+        .map((a) => ({ text: a[0], contentType: a[1] }));
+    },
   },
   watch: {
     curMonster(newMonster) {
       const envName = `VUE_APP_${newMonster.toUpperCase()}_TOPNAVITEMS`;
-      this.topNavItems = process.env[envName].split(',');
+      this.topNavItems = this.processNavItems(process.env[envName]);
     },
   },
   components: {
@@ -57,3 +63,4 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped lang="scss"></style>

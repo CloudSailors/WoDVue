@@ -7,7 +7,10 @@
       >
         <b-button-toolbar key-nav>
           <b-button-group class="mx-1">
-            <b-button variant="outline" v-on:click="clickExpand(parentContent)"
+            <b-button
+              v-if="parentContent.children"
+              variant="outline"
+              v-on:click="clickExpand(parentContent)"
               ><b-icon-plus-square
                 v-if="!parentContent.expand"
               ></b-icon-plus-square>
@@ -37,7 +40,7 @@ import cContentListItem from './contentListItem.vue';
 export default {
   name: 'cContentList',
   props: {
-    curNavItem: String,
+    curNavItem: Object,
   },
   data() {
     return {
@@ -54,7 +57,7 @@ export default {
     async curNavItem(newCurNavItem) {
       // we take the curNavItem and use it to load the requested data
       this.contentListData = await apiContentful.getContentbyTypeAsync(
-        newCurNavItem,
+        newCurNavItem.contentType,
       );
       if (!this.contentListData || this.contentListData.length === 0) {
         this.$store.commit('updateContent', null);
@@ -72,7 +75,7 @@ export default {
 .leftNav {
   position: fixed;
   left: 0;
-  height: 100%;
+  height: 80%;
   overflow: auto;
 }
 </style>

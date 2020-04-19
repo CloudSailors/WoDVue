@@ -1,5 +1,6 @@
 /* eslint-disable indent */
 import axios from 'axios';
+import helpers from '../../helpers/helpers';
 
 let http = null;
 class APIContentful {
@@ -54,7 +55,7 @@ class APIContentful {
 
   async getContentbyTypeAsync(contentType) {
     const contentTypeInfo = this.getContentTypeInfoByField(
-      'contentType',
+      'contentTypeId',
       contentType,
     );
     if (!contentTypeInfo) {
@@ -72,24 +73,29 @@ class APIContentful {
 
     const parentEntries = await this.getParentEntriesAsync(
       contentTypeId,
-      contentType,
       sortParent,
+      parentKeyField !== '',
     );
-    const allEntryData = await this.loadChildEntriesAsync(
-      parentEntries,
-      contentTypeId,
-      contentType,
-      parentKeyField,
-      sortChild,
-    );
+    let allEntryData = parentEntries;
+    if (parentKeyField !== '') {
+      allEntryData = await this.loadChildEntriesAsync(
+        parentEntries,
+        contentTypeId,
+        contentType,
+        parentKeyField,
+        sortChild,
+      );
+    }
     return allEntryData;
   }
 
-  async getParentEntriesAsync(contentTypeId, contentType, sortParent) {
+  async getParentEntriesAsync(contentTypeId, sortParent, hasChildren) {
     const queryGetParentEntries = {
       content_type: contentTypeId,
-      'fields.parent': true,
     };
+    if (hasChildren) {
+      queryGetParentEntries['fields.parent'] = true;
+    }
     const resourceEntries = this.getResource('entries');
     const resParentEntries = await this.queryContentfulAsync(
       resourceEntries,
@@ -97,8 +103,7 @@ class APIContentful {
     );
     return this.extractEntryDataFromResponse(
       resParentEntries,
-      contentType,
-      { expand: false },
+      hasChildren ? { expand: false, contentTypeId } : { contentTypeId },
       sortParent,
     );
   }
@@ -168,37 +173,64 @@ class APIContentful {
     return childEntries;
   }
 
+  extractData(entryData) {
+    const keys = Object.keys(entryData);
+    return keys.reduce((entry, k) => {
+      entry[k] = this.getFieldValue(entryData[k]);
+      return entry;
+    }, {});
+  }
+
+  getFieldValue(field) {
+    const type = helpers.typeOf(field);
+    switch (type) {
+      case 'number':
+      case 'string':
+        return this.getTrimmedValue(field);
+      case 'array':
+        return this.getArrayValue(field);
+      case 'object':
+        return this.getObjectValue(field);
+      default:
+        return null;
+    }
+  }
+
+  getObjectValue(field) {
+    const contentAry = field.content
+      .map((c) => c.content)
+      .flat()
+      .map((c) => c.value);
+    return contentAry;
+  }
+
+  getArrayValue(field) {
+    return field;
+  }
+
+  addInitialVals(entries, initialVals) {
+    return entries.map((e) => ({
+      ...e,
+      ...initialVals,
+    }));
+  }
+
   extractEntryDataFromResponse(
     resContentful,
-    contentType,
     initialVals = null,
     sortField = null,
   ) {
-    const entryDataUnsorted = resContentful.data.items
-      .map((i) =>
-        Object.keys(i.fields).reduce(
-          (obj, fieldName) => {
-            obj[fieldName] = !i.fields[fieldName].nodeType
-              ? this.getTrimmedValue(i.fields[fieldName])
-              : this.extractFieldValue(i.fields[fieldName]);
-            return obj;
-          },
-          { contentType },
-        ),
-      )
-      .map((i) => {
-        if (initialVals) {
-          Object.keys(initialVals).forEach((k) => {
-            i[k] = initialVals[k];
-          });
-          return i;
-        }
-        return i;
-      });
-    if (sortField) {
-      return this.getSortedEntryData(entryDataUnsorted, sortField);
+    const { items } = resContentful.data;
+    const itemObjects = items.map((i) => i.fields);
+    let unsortedEntries = itemObjects.map((i) => this.extractData(i));
+    if (initialVals) {
+      unsortedEntries = this.addInitialVals(unsortedEntries, initialVals);
     }
-    return entryDataUnsorted;
+    if (sortField) {
+      const sorted = this.getSortedEntries(unsortedEntries, sortField);
+      return sorted;
+    }
+    return unsortedEntries;
   }
 
   async queryContentfulAsync(resource, query) {
@@ -216,7 +248,7 @@ class APIContentful {
     return idx > -1 ? this.contentTypeInfo[idx] : null;
   }
 
-  getSortedEntryData(unsortedData, sortField) {
+  getSortedEntries(unsortedData, sortField) {
     return unsortedData.sort((a, b) => {
       const fieldA =
         a[sortField] && isNaN(a[sortField])

@@ -1,13 +1,24 @@
 <template>
   <span class="mainContent">
-    <p v-for="(item, idx) in displayContent" :key="`content_${idx}`">
+    <div v-for="(item, idx) in displayContent" :key="`content_${idx}`">
+      <span style="font-weight:bold">{{ item.displayLabel }}: </span>
+      <span v-if="helpers.typeOf(item.value) !== 'array'">{{
+        item.value
+      }}</span>
+      <p v-else v-for="(subItem, idx) in item.value" :key="`subItem_${idx}`">
+        {{ subItem }}
+      </p>
+    </div>
+    <!-- <p v-for="(item, idx) in displayContent" :key="`content_${idx}`">
       <span style="font-weight:bold">{{ item.displayLabel }}: </span>
       {{ item.value }}
-    </p>
+    </p> -->
   </span>
 </template>
 
 <script>
+import helpers from '../../utils/helpers/helpers';
+
 export default {
   name: 'cContentView',
   props: {},
@@ -16,6 +27,7 @@ export default {
     return {
       displayContent: [],
       noContent: [{ displayLabel: 'My Apologies', value: 'No content yet' }],
+      helpers,
     };
   },
   computed: {
@@ -28,8 +40,8 @@ export default {
   methods: {
     processContent(content) {
       const { curMonster } = this.$store.getters;
-      const { contentType } = content;
-      const displayContentMapName = `VUE_APP_${curMonster.toUpperCase()}_DISPLAY_CONTENT_MAP_${contentType.toUpperCase()}`;
+      const { contentTypeId } = content;
+      const displayContentMapName = `VUE_APP_${curMonster.toUpperCase()}_DISPLAY_CONTENT_MAP_${contentTypeId.toUpperCase()}`;
       const displayContentMapStr = process.env[displayContentMapName];
       const displayContent = displayContentMapStr.split(',').map((dcp) => {
         const dcpAry = dcp.split('|');
