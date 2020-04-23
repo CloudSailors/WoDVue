@@ -1,6 +1,6 @@
 <template>
   <b-button-group class="mx-1">
-    <b-nav-item v-on:click="showDetails()">{{ contentData.title }}</b-nav-item>
+    <b-nav-item v-on:click="showEntry()">{{ entry.title }}</b-nav-item>
   </b-button-group>
 </template>
 
@@ -8,16 +8,13 @@
 export default {
   name: 'cContentListItem',
   props: {
-    contentData: Object,
+    entry: Object,
   },
-  components: {},
-  data() {
-    return {};
-  },
-  mounted() {},
   methods: {
-    showDetails: function showDetails() {
-      this.$store.commit('updateContent', this.contentData);
+    showEntry: function showEntry() {
+      console.log(this.entry.id);
+      this.$store.commit('updateCurEntryId', this.entry.id);
+      this.$store.commit('updateCurEntryData', this.entry);
     },
   },
 };

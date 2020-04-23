@@ -1,15 +1,15 @@
 <template>
   <div>
-    <b-nav align="center" id="monsterTopNav">
+    <b-nav align="center" id="monsterContentTypesNav">
       <b-nav-item
-        v-for="(navItem, idx) in topNavItems"
-        :key="`${navItem}_${idx}`"
+        v-for="(contentTypeId, idx) in monsterContentTypeIds"
+        :key="`${contentTypeId}_${idx}`"
         active
-        v-on:click="clickNavItem(navItem)"
-        >{{ navItem.text }}</b-nav-item
+        v-on:click="clickMonsterContentTypesNavItem(contentTypeId)"
+        >{{ contentTypeId.text }}</b-nav-item
       >
     </b-nav>
-    <cContentList :curNavItem="curTopNavItem"></cContentList>
+    <cContentList></cContentList>
     <cContentView></cContentView>
   </div>
 </template>
@@ -23,8 +23,7 @@ export default {
   props: {},
   data() {
     return {
-      topNavItems: [],
-      curTopNavItem: {},
+      monsterContentTypeIds: [],
     };
   },
   computed: {
@@ -32,27 +31,31 @@ export default {
       return this.$store.getters.curMonster;
     },
   },
-  mounted() {
-    if (this.curMonster) {
-      const envName = `VUE_APP_${this.curMonster.toUpperCase()}_TOPNAVITEMS`;
-      this.topNavItems = this.processNavItems(process.env[envName]);
-    }
-  },
   methods: {
-    clickNavItem: function clickNavItem(navItemClicked) {
-      this.curTopNavItem = navItemClicked;
+    clickMonsterContentTypesNavItem: function clickMonsterContentTypesNavItem(
+      contentTypeId,
+    ) {
+      this.$store.commit('updateCurContentTypeId', contentTypeId.contentTypeId);
+      this.$store.commit('clearEntry');
     },
-    processNavItems: function processNavItems(navItemsString) {
-      return navItemsString
+    getContentTypeIdsString: function getContentTypeIdsString() {
+      return process.env[
+        `VUE_APP_CONTENT_TYPE_NAV_ITEMS_${this.curMonster.toUpperCase()}`
+      ];
+    },
+    getContentTypeIds: function getContentTypeIds(monster) {
+      return this.processContentTypeIds(this.getContentTypeIdsString(monster));
+    },
+    processContentTypeIds: function processContentTypeIds(contentTypesString) {
+      return contentTypesString
         .split(',')
         .map((ni) => ni.split('|'))
-        .map((a) => ({ text: a[0], contentType: a[1] }));
+        .map((a) => ({ text: a[0], contentTypeId: a[1] }));
     },
   },
   watch: {
     curMonster(newMonster) {
-      const envName = `VUE_APP_${newMonster.toUpperCase()}_TOPNAVITEMS`;
-      this.topNavItems = this.processNavItems(process.env[envName]);
+      this.monsterContentTypeIds = this.getContentTypeIds(newMonster);
     },
   },
   components: {

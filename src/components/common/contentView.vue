@@ -1,6 +1,6 @@
 <template>
   <span class="mainContent">
-    <div v-for="(item, idx) in displayContent" :key="`content_${idx}`">
+    <div v-for="(item, idx) in entryData" :key="`content_${idx}`">
       <span style="font-weight:bold">{{ item.displayLabel }}: </span>
       <span v-if="helpers.typeOf(item.value) !== 'array'">{{
         item.value
@@ -9,10 +9,6 @@
         {{ subItem }}
       </p>
     </div>
-    <!-- <p v-for="(item, idx) in displayContent" :key="`content_${idx}`">
-      <span style="font-weight:bold">{{ item.displayLabel }}: </span>
-      {{ item.value }}
-    </p> -->
   </span>
 </template>
 
@@ -21,47 +17,55 @@ import helpers from '../../utils/helpers/helpers';
 
 export default {
   name: 'cContentView',
-  props: {},
-  components: {},
+  computed: {
+    entryData() {
+      // console.log('contentView : entryData');
+      console.dir(this.$store.getters.curEntryData);
+      // return this.$store.getters.curEntryData;
+      return this.processEntryData(this.$store.getters.curEntryData);
+    },
+  },
   data() {
     return {
       displayContent: [],
-      noContent: [{ displayLabel: 'My Apologies', value: 'No content yet' }],
       helpers,
     };
   },
-  computed: {
-    curContent() {
-      const { curContent } = this.$store.getters;
-      return curContent;
-    },
-  },
-  mounted() {},
   methods: {
-    processContent(content) {
-      const { curMonster } = this.$store.getters;
-      const { contentTypeId } = content;
-      const displayContentMapName = `VUE_APP_${curMonster.toUpperCase()}_DISPLAY_CONTENT_MAP_${contentTypeId.toUpperCase()}`;
+    getDisplayContent(curMonster, contentTypeId, entryData) {
+      const displayContentMapName = `VUE_APP_DISPLAY_CONTENT_MAP_${curMonster.toUpperCase()}_${contentTypeId.toUpperCase()}`;
       const displayContentMapStr = process.env[displayContentMapName];
-      const displayContent = displayContentMapStr.split(',').map((dcp) => {
+      return displayContentMapStr.split(',').map((dcp) => {
         const dcpAry = dcp.split('|');
         const [displayLabel, contentField] = dcpAry;
         const dcpObj = {
           displayLabel,
-          value: content[contentField],
+          value: entryData[contentField],
         };
         return dcpObj;
       });
+    },
+    processEntryData(entryData) {
+      if (!entryData) {
+        return null;
+        // return [
+        //   {
+        //     displayLabel: 'My apologies.',
+        //     value: 'We have no entries for this.',
+        //   },
+        // ];
+      }
+      const { curMonster } = this.$store.getters;
+      const { contentTypeId } = entryData;
+      const displayContent = this.getDisplayContent(
+        curMonster,
+        contentTypeId,
+        entryData,
+      );
       return displayContent;
     },
   },
-  watch: {
-    curContent(newContent) {
-      this.displayContent = newContent
-        ? this.processContent(newContent)
-        : this.noContent;
-    },
-  },
+  watch: {},
 };
 </script>
 

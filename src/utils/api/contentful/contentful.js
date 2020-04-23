@@ -59,10 +59,10 @@ class APIContentful {
       contentType,
     );
     if (!contentTypeInfo) {
-      console.log(
-        `Error : getContentByType : getContentTypeInfo is null for contentType ${contentType}`,
-      );
-      return [];
+      // throw new Error(
+      //   `Error : getContentByType : getContentTypeInfo is null for contentType ${contentType}`,
+      // );
+      return null;
     }
     const {
       contentTypeId,
@@ -81,7 +81,6 @@ class APIContentful {
       allEntryData = await this.loadChildEntriesAsync(
         parentEntries,
         contentTypeId,
-        contentType,
         parentKeyField,
         sortChild,
       );
@@ -92,6 +91,7 @@ class APIContentful {
   async getParentEntriesAsync(contentTypeId, sortParent, hasChildren) {
     const queryGetParentEntries = {
       content_type: contentTypeId,
+      select: 'fields,sys.id',
     };
     if (hasChildren) {
       queryGetParentEntries['fields.parent'] = true;
@@ -111,16 +111,15 @@ class APIContentful {
   async loadChildEntriesAsync(
     parentEntries,
     contentTypeId,
-    contentType,
     parentKeyField,
     sortChild,
   ) {
     const promises = parentEntries.map((pe) =>
       this.getChildEntriesForParentAsync(
         contentTypeId,
-        contentType,
         parentKeyField,
         pe[parentKeyField],
+        pe.id,
         sortChild,
       ),
     );
@@ -137,9 +136,9 @@ class APIContentful {
 
   async getChildEntriesForParentAsync(
     contentTypeId,
-    contentType,
     parentKeyField,
     parentFieldValue,
+    parentId,
     sortChild,
   ) {
     const keyField = `fields.${parentKeyField}`;
@@ -152,24 +151,9 @@ class APIContentful {
     const resChildEntries = await this.queryContentfulAsync(resource, query);
     const childEntries = this.extractEntryDataFromResponse(
       resChildEntries,
-      contentType,
-      null,
+      { contentTypeId, parentId },
       sortChild,
     );
-    // const childEntries = resChildEntries.data.items.map((i) => ({
-    //   contentType: contentType,
-    //   cost: this.getTrimmedValue(i.fields.cost),
-    //   errata: this.extractFieldValue(i.fields.errata),
-    //   exceptionalLong: this.extractFieldValue(i.fields.exceptionalLong),
-    //   foci: this.getTrimmedValue(i.fields.foci),
-    //   focusDescriptor: this.extractFieldValue(i.fields.focusDescriptor),
-    //   level: i.fields.level || null,
-    //   power: this.getTrimmedValue(i.fields.power),
-    //   summary: this.extractFieldValue(i.fields.summary),
-    //   system: this.extractFieldValue(i.fields.system),
-    //   testPool: this.getTrimmedValue(i.fields.testPool),
-    //   title: this.getTrimmedValue(i.fields.title),
-    // }));
     return childEntries;
   }
 
@@ -221,7 +205,10 @@ class APIContentful {
     sortField = null,
   ) {
     const { items } = resContentful.data;
-    const itemObjects = items.map((i) => i.fields);
+    const itemObjects = items.map((i) => ({
+      ...i.fields,
+      id: i.sys.id,
+    }));
     let unsortedEntries = itemObjects.map((i) => this.extractData(i));
     if (initialVals) {
       unsortedEntries = this.addInitialVals(unsortedEntries, initialVals);

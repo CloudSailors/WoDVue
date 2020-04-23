@@ -1,31 +1,28 @@
 <template>
   <div class="leftNav">
     <b-nav vertical>
-      <div
-        v-for="(parentContent, idx) in contentListData"
-        :key="`parent_${idx}`"
-      >
+      <div v-for="(parentEntry, idx) in entryListData" :key="`parent_${idx}`">
         <b-button-toolbar key-nav>
           <b-button-group class="mx-1">
             <b-button
-              v-if="parentContent.children"
+              v-if="parentEntry.children"
               variant="outline"
-              v-on:click="clickExpand(parentContent)"
+              v-on:click="clickExpand(parentEntry)"
               ><b-icon-plus-square
-                v-if="!parentContent.expand"
+                v-if="!parentEntry.expand"
               ></b-icon-plus-square>
               <b-icon-dash-square
-                v-if="parentContent.expand"
+                v-if="parentEntry.expand"
               ></b-icon-dash-square>
             </b-button>
           </b-button-group>
-          <cContentListItem :contentData="parentContent"></cContentListItem>
+          <cContentListItem :entry="parentEntry"></cContentListItem>
         </b-button-toolbar>
-        <b-nav v-if="parentContent.expand" vertical>
+        <b-nav v-if="parentEntry.expand" vertical>
           <cContentListItem
-            v-for="(childContent, idx) in parentContent.children"
+            v-for="(childEntry, idx) in parentEntry.children"
             :key="`child_${idx}`"
-            :contentData="childContent"
+            :entry="childEntry"
           ></cContentListItem>
         </b-nav>
       </div>
@@ -34,33 +31,37 @@
 </template>
 
 <script>
-import apiContentful from '../../utils/api/contentful/contentful';
 import cContentListItem from './contentListItem.vue';
 
 export default {
   name: 'cContentList',
-  props: {
-    curNavItem: Object,
+  props: {},
+  computed: {
+    curContentTypeId() {
+      return this.$store.getters.curContentTypeId;
+    },
+    entryListData() {
+      return this.$store.getters.getAllEntriesForCurrentContentTypeId;
+    },
   },
   data() {
     return {
-      contentListData: [],
+      dataError: {},
     };
   },
   mounted() {},
   methods: {
-    clickExpand: function clickExpand(parentDiscipline) {
-      parentDiscipline.expand = !parentDiscipline.expand;
+    clickExpand: function clickExpand(parentEntry) {
+      parentEntry.expand = !parentEntry.expand;
     },
   },
   watch: {
-    async curNavItem(newCurNavItem) {
-      // we take the curNavItem and use it to load the requested data
-      this.contentListData = await apiContentful.getContentbyTypeAsync(
-        newCurNavItem.contentType,
-      );
-      if (!this.contentListData || this.contentListData.length === 0) {
-        this.$store.commit('updateContent', null);
+    async curContentTypeId(curContentTypeId) {
+      if (!this.entryListData || this.entryListData.length === 0) {
+        this.$store.dispatch(
+          'loadEntriesByContentTypeIdAsync',
+          curContentTypeId,
+        );
       }
     },
   },

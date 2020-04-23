@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link>
+      <router-link active to="/">Home</router-link>
       <router-link
         v-for="(monster, idx) in monsterTypes"
         :key="`monster_${idx}`"
@@ -16,9 +16,13 @@
 
 <script>
 export default {
+  computed: {
+    monsterTypes() {
+      return this.$store.getters.monsterTypes;
+    },
+  },
   data() {
     return {
-      monsterTypes: process.env.VUE_APP_MONSTER_TYPES.split(','),
       monsterNavTitles: process.env.VUE_APP_MONSTER_NAVTITLES.split(','),
     };
   },
