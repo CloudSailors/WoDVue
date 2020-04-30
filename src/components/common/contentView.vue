@@ -19,9 +19,6 @@ export default {
   name: 'cContentView',
   computed: {
     entryData() {
-      // console.log('contentView : entryData');
-      console.dir(this.$store.getters.curEntryData);
-      // return this.$store.getters.curEntryData;
       return this.processEntryData(this.$store.getters.curEntryData);
     },
   },

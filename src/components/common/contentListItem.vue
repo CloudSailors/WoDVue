@@ -12,7 +12,6 @@ export default {
   },
   methods: {
     showEntry: function showEntry() {
-      console.log(this.entry.id);
       this.$store.commit('updateCurEntryId', this.entry.id);
       this.$store.commit('updateCurEntryData', this.entry);
     },
