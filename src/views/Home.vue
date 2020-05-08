@@ -1,8 +1,11 @@
 <template>
   <div class="home">
+  <div class="container">
     <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
     <!-- <HelloWorld msg="Welcome to Your Vue.js App" /> -->
-    <cHome msg="Welcome To One World Of Darkness"></cHome>
+    <cHome class="welcome" msg="Welcome"></cHome>
+    <b-button href="#" variant="primary">Learn More</b-button>
+  </div>
   </div>
 </template>
 

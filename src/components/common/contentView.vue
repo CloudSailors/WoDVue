@@ -1,7 +1,8 @@
 <template>
-  <span class="mainContent">
-    <div v-for="(item, idx) in entryData" :key="`content_${idx}`">
-      <span style="font-weight:bold">{{ item.displayLabel }}: </span>
+<div class="container">
+  <div class="mainContent">
+    <div class="data" v-for="(item, idx) in entryData" :key="`content_${idx}`">
+      <span class="title">{{ item.displayLabel }}: </span>
       <span v-if="helpers.typeOf(item.value) !== 'array'">{{
         item.value
       }}</span>
@@ -9,7 +10,8 @@
         {{ subItem }}
       </p>
     </div>
-  </span>
+  </div>
+</div>
 </template>
 
 <script>
@@ -68,8 +70,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.mainContent {
-  display: inline-block;
-  width: 500px;
-}
 </style>

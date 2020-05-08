@@ -3,20 +3,20 @@
     <b-nav vertical>
       <div v-for="(parentEntry, idx) in entryListData" :key="`parent_${idx}`">
         <b-button-toolbar key-nav>
+          <cContentListItem :entry="parentEntry"></cContentListItem>
           <b-button-group class="mx-1">
             <b-button
               v-if="parentEntry.children"
-              variant="outline"
+              variant="link"
               v-on:click="clickExpand(parentEntry)"
-              ><b-icon-plus-square
+              ><b-icon-plus
                 v-if="!parentEntry.expand"
-              ></b-icon-plus-square>
-              <b-icon-dash-square
+              ></b-icon-plus>
+              <b-icon-dash
                 v-if="parentEntry.expand"
-              ></b-icon-dash-square>
+              ></b-icon-dash>
             </b-button>
           </b-button-group>
-          <cContentListItem :entry="parentEntry"></cContentListItem>
         </b-button-toolbar>
         <b-nav v-if="parentEntry.expand" vertical>
           <cContentListItem
@@ -73,10 +73,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.leftNav {
-  position: fixed;
-  left: 0;
-  height: 80%;
-  overflow: auto;
-}
 </style>

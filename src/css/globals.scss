@@ -1,0 +1,206 @@
+$bg: 	#0F0F0F;
+$white:	#FFFFFF;
+$bgNav:	#141414;
+$line:	#282828;
+
+
+body{
+	background:$bg;
+	background-image: url(../assets/bg.jpg);
+	background-repeat: no-repeat;
+	background-size: auto 100vh;
+	background-position: center top;
+
+	font-family: 'David Libre';
+	font-size: 16px;
+	color: $white;
+}
+
+a{
+	color: $white;
+}
+
+a:hover{
+	color: $white;
+	text-decoration: underline;
+}
+
+.btn-primary{
+	font-size: 24px;
+	font-family: 'Cinzel';
+	padding: 0;
+	line-height: 60px;
+	min-width: 350px;
+	border: none;
+	border-radius: 0;
+
+	/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#000028+0,700000+90,700000+100 */
+	background: rgb(0,0,40); /* Old browsers */
+	background: -moz-linear-gradient(top,  rgba(0,0,40,1) 0%, rgba(112,0,0,1) 90%, rgba(112,0,0,1) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  rgba(0,0,40,1) 0%,rgba(112,0,0,1) 90%,rgba(112,0,0,1) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  rgba(0,0,40,1) 0%,rgba(112,0,0,1) 90%,rgba(112,0,0,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000028', endColorstr='#700000',GradientType=0 ); /* IE6-9 */
+
+}
+#nav{
+	height: 125px;
+	margin-top: 20px;
+}
+.navbar{
+	
+	background-color: $bgNav;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+
+	.container{
+		display: flex;
+		justify-content: space-between;
+	}
+
+	a{
+		padding:0px;
+		font-family: 'Cinzel';
+		font-weight: bold;
+		font-size: 18px;
+		color: $white;
+		text-decoration: none;
+		border-bottom: 1px solid transparent;
+
+		&:hover{
+			border-bottom: 1px solid $white;
+		}
+		&.router-link-exact-active{
+			color: $white;
+			border-bottom: 1px solid $white;
+		}
+	}
+
+
+	.logo{
+		background-image: url(../assets/logo.png);
+		width: 256px;
+		height: 63px;
+		display: block;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		top: 31px;
+
+		&:hover, &.router-link-exact-active{
+			border-bottom: 1px solid transparent;
+		}
+
+		&.logoNS{
+			background-image: url(../assets/logoNS.png);
+			width: 160px;
+			height: 56px;
+			top: 16px;
+		}
+	}
+}
+
+#monsterContentTypesNav{
+	background-color: $bg;
+	height: 50px;
+	border-top: 1px solid $line;
+	border-bottom: 1px solid $line;
+	
+
+	.nav-link{
+		
+		line-height: 50px;
+		padding: 0 1rem;
+
+		&:hover{
+			color: $white;
+			text-decoration: underline;
+		}
+	}
+}
+
+.leftNav{
+	background-color: $bg;
+	width: 20%;
+	padding:30px;
+	height: calc(100vh - 323px);
+  	position: fixed;
+  	left: 0;
+  	overflow: auto;
+	.btn-toolbar{
+		justify-content: space-between;
+	}
+  	.btn{
+  		color: $white;
+  	}
+
+  	ul ul{
+  		padding:30px;
+  	}
+}
+.home{
+	display: flex;
+	align-items: center;
+	height: calc(100vh - 273px);
+	justify-content: center;
+
+	.welcome{
+		font-family: 'Cinzel';
+		font-size: 60px;
+		color:$white;
+		text-transform: uppercase;
+		margin-bottom: 40px;
+	}
+}
+#menu-footer{
+	height: 88px;
+	border-top: 1px solid $line;
+	border-bottom: 1px solid $line;
+	position: absolute;
+	bottom: 40px;
+	width: 100%;
+
+	.container{
+		justify-content: space-around;
+	}
+
+	a{
+		font-size: 14px;
+	}
+}
+
+
+.footer-copyright{
+	height: 40px;
+	background-color: $bg;
+	line-height: 40px;
+	text-transform: uppercase;
+	font-family: 'Cinzel';
+	position: absolute;
+	bottom: 0px;
+	width: 100%;
+}
+
+
+.mainContent{
+	background-color: $bgNav;
+	margin-top: 90px;
+	margin-left: 5px;
+	padding: 30px;
+	margin-bottom: 90px;
+
+	height: 500px;
+	overflow: auto;
+
+	.data{
+		margin-bottom: 10px;
+
+		.title{
+			text-transform: uppercase;
+			font-weight: bold;
+		}
+	}
+}
+
