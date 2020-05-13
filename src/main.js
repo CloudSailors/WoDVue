@@ -6,6 +6,8 @@ import router from './router';
 import store from './store';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
+import './css/fonts.css';
+import './css/globals.css';
 
 // Install BootstrapVue
 Vue.use(BootstrapVue);
