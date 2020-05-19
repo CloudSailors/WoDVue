@@ -1,5 +1,6 @@
 <template>
   <div class="leftNav col-md-3">
+   <simplebar class="darkBar" data-simplebar-auto-hide="false">
     <b-nav vertical>
       <div v-for="(parentEntry, idx) in entryListData" :key="`parent_${idx}`">
         <b-button-toolbar key-nav>
@@ -27,10 +28,13 @@
         </b-nav>
       </div>
     </b-nav>
+    </simplebar>
   </div>
 </template>
 
 <script>
+import simplebar from 'simplebar-vue';
+import 'simplebar/dist/simplebar.min.css';
 import cContentListItem from './contentListItem.vue';
 
 export default {
@@ -67,6 +71,7 @@ export default {
   },
   components: {
     cContentListItem,
+    simplebar,
   },
 };
 </script>

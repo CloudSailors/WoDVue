@@ -102,9 +102,15 @@ a:hover {
       color: #FFFFFF;
       text-decoration: underline; }
 
+.darkBar {
+  height: 100%;
+  padding: 30px; }
+  .darkBar .simplebar-scrollbar::before {
+    background-color: #666666; }
+
 .leftNav {
   background-color: #0F0F0F;
-  padding: 30px;
+  padding: 0px;
   max-height: 100%;
   left: 0;
   overflow: auto;
@@ -164,7 +170,7 @@ a:hover {
   max-height: 100%;
   overflow: auto; }
   .mainContent .boxDescription {
-    padding: 30px;
+    padding: 0px;
     background-color: #141414;
     height: 100%;
     overflow: auto;
@@ -181,10 +187,10 @@ a:hover {
     .leftNav .btn-toolbar .btn-group .nav-link {
       padding: 8px; } }
 @media (max-width: 1199px) {
-  .leftNav {
-    padding: 25px; }
-    .leftNav .btn-toolbar .btn-group .nav-link {
-      padding: 8px; } }
+  .leftNav .btn-toolbar .btn-group .nav-link {
+    padding: 8px; }
+  .leftNav .darkBar {
+    padding: 25px; } }
 @media (max-width: 991px) {
   .navbar a {
     font-size: 16px; }
@@ -192,6 +198,9 @@ a:hover {
     width: 200px; }
     .navbar .logo.logoNS {
       width: 160px; }
+
+  .leftNav .darkBar {
+    padding: 20px; }
 
   #menu-footer .container {
     justify-content: space-between; } }
