@@ -1,6 +1,6 @@
 <template>
-<div class="container">
-  <div class="mainContent">
+  <div class="mainContent col-md-9">
+  <div class="boxDescription">
     <div class="data" v-for="(item, idx) in entryData" :key="`content_${idx}`">
       <span class="title">{{ item.displayLabel }}: </span>
       <span v-if="helpers.typeOf(item.value) !== 'array'">{{
@@ -11,7 +11,7 @@
       </p>
     </div>
   </div>
-</div>
+  </div>
 </template>
 
 <script>

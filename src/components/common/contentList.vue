@@ -1,9 +1,8 @@
 <template>
-  <div class="leftNav">
+  <div class="leftNav col-md-3">
     <b-nav vertical>
       <div v-for="(parentEntry, idx) in entryListData" :key="`parent_${idx}`">
         <b-button-toolbar key-nav>
-          <cContentListItem :entry="parentEntry"></cContentListItem>
           <b-button-group class="mx-1">
             <b-button
               v-if="parentEntry.children"
@@ -17,6 +16,7 @@
               ></b-icon-dash>
             </b-button>
           </b-button-group>
+          <cContentListItem :entry="parentEntry"></cContentListItem>
         </b-button-toolbar>
         <b-nav v-if="parentEntry.expand" vertical>
           <cContentListItem

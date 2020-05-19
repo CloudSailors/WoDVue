@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="inner-content">
     <b-nav align="center" id="monsterContentTypesNav">
       <b-nav-item
         v-for="(contentTypeId, idx) in monsterContentTypeIds"
@@ -9,8 +9,12 @@
         >{{ contentTypeId.text }}</b-nav-item
       >
     </b-nav>
-    <cContentList></cContentList>
-    <cContentView></cContentView>
+    <div class="container-fluid innerMonster d-flex flex-column h-100 ">
+      <div class="row h-100">
+        <cContentList></cContentList>
+        <cContentView></cContentView>
+      </div>
+    </div>
   </div>
 </template>
 
