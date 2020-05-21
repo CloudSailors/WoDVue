@@ -14,20 +14,22 @@
     </div>
     <router-view />
 
-    <div id="menu-footer" class="navbar">
-      <div class="container">
-        <router-link active to="/" class="logo logoNS"></router-link>
-        <router-link
-          v-for="(monster, idx) in monsterTypes"
-          :key="`monster_${idx}`"
-          :to="`/${monster}`"
-          >{{ monsterNavTitles[idx] }}</router-link
-        >
+    <div id="wrapper-footer">
+      <div id="menu-footer" class="navbar">
+        <div class="container">
+          <router-link active to="/" class="logo logoNS"></router-link>
+          <router-link
+            v-for="(monster, idx) in monsterTypes"
+            :key="`monster_${idx}`"
+            :to="`/${monster}`"
+            >{{ monsterNavTitles[idx] }}</router-link
+          >
+        </div>
       </div>
-    </div>
-    <div class="footer-copyright text-center">
-      <div class="container">
-      <a href="https://www.bynightstudios.com/"> By Night Studios </a> | <span> Worldofdarkness - 2020</span>
+      <div class="footer-copyright text-center">
+        <div class="container">
+        <a href="https://www.bynightstudios.com/"> By Night Studios </a> | <span> Worldofdarkness - 2020</span>
+        </div>
       </div>
     </div>
   </div>

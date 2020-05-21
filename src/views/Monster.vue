@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main-content">
     <cMonster v-if="monster" />
   </div>
 </template>

@@ -1,9 +1,9 @@
 <template>
-  <div class="leftNav">
+  <div class="leftNav col-md-3">
+   <simplebar class="darkBar" data-simplebar-auto-hide="false">
     <b-nav vertical>
       <div v-for="(parentEntry, idx) in entryListData" :key="`parent_${idx}`">
         <b-button-toolbar key-nav>
-          <cContentListItem :entry="parentEntry"></cContentListItem>
           <b-button-group class="mx-1">
             <b-button
               v-if="parentEntry.children"
@@ -17,6 +17,7 @@
               ></b-icon-dash>
             </b-button>
           </b-button-group>
+          <cContentListItem :entry="parentEntry"></cContentListItem>
         </b-button-toolbar>
         <b-nav v-if="parentEntry.expand" vertical>
           <cContentListItem
@@ -27,10 +28,13 @@
         </b-nav>
       </div>
     </b-nav>
+    </simplebar>
   </div>
 </template>
 
 <script>
+import simplebar from 'simplebar-vue';
+import 'simplebar/dist/simplebar.min.css';
 import cContentListItem from './contentListItem.vue';
 
 export default {
@@ -67,6 +71,7 @@ export default {
   },
   components: {
     cContentListItem,
+    simplebar,
   },
 };
 </script>

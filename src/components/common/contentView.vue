@@ -1,6 +1,7 @@
 <template>
-<div class="container">
-  <div class="mainContent">
+  <div class="mainContent col-md-9">
+  <div class="boxDescription">
+  <simplebar class="darkBar" data-simplebar-auto-hide="false">
     <div class="data" v-for="(item, idx) in entryData" :key="`content_${idx}`">
       <span class="title">{{ item.displayLabel }}: </span>
       <span v-if="helpers.typeOf(item.value) !== 'array'">{{
@@ -10,11 +11,14 @@
         {{ subItem }}
       </p>
     </div>
+    </simplebar>
   </div>
-</div>
+  </div>
 </template>
 
 <script>
+import simplebar from 'simplebar-vue';
+import 'simplebar/dist/simplebar.min.css';
 import helpers from '../../utils/helpers/helpers';
 
 export default {
@@ -65,6 +69,9 @@ export default {
     },
   },
   watch: {},
+  components: {
+    simplebar,
+  },
 };
 </script>
 
