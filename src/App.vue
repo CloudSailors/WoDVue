@@ -7,6 +7,7 @@
         v-for="(monster, idx) in monsterTypes"
         :key="`monster_${idx}`"
         :to="`/${monster}`"
+        :class="`btn-${monster}`"
         >{{ monsterNavTitles[idx] }}</router-link
       >
       <!-- <router-link to="/about">About</router-link> -->
@@ -22,6 +23,7 @@
             v-for="(monster, idx) in monsterTypes"
             :key="`monster_${idx}`"
             :to="`/${monster}`"
+            :class="`btn-${monster}`"
             >{{ monsterNavTitles[idx] }}</router-link
           >
         </div>
