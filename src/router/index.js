@@ -5,8 +5,6 @@ import vMonster from '../views/Monster.vue';
 import vAbout from '../views/About.vue';
 import vNotFound from '../views/NotFound.vue';
 
-Vue.use(VueRouter);
-
 const routes = [
   {
     path: '/',
@@ -14,13 +12,13 @@ const routes = [
     component: vHome,
   },
   {
-    path: '/:monster',
+    path: '/monsters/:monster',
     name: 'Monster',
     component: vMonster,
     props: true,
   },
   {
-    path: '/:monster/:contentType',
+    path: '/monsters/:monster/:contentType',
     name: 'Content',
   },
   {
@@ -44,5 +42,7 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
+
+Vue.use(VueRouter);
 
 export default router;

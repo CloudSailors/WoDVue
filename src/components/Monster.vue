@@ -6,10 +6,9 @@
         :key="`${contentTypeId}_${idx}`"
         active
         v-on:click="clickMonsterContentTypesNavItem(contentTypeId)"
-        >{{ contentTypeId.text }}</b-nav-item
-      >
+      >{{ contentTypeId.text }}</b-nav-item>
     </b-nav>
-    <div class="container-fluid innerMonster d-flex flex-column h-100 ">
+    <div class="container-fluid innerMonster d-flex flex-column h-100">
       <div class="row h-100">
         <cContentList></cContentList>
         <cContentView></cContentView>
@@ -32,8 +31,34 @@ export default {
   },
   computed: {
     curMonster() {
-      return this.$store.getters.curMonster;
+      console.log('COMPUTING CUR MONSTER');
+      console.dir(this.$route.params.monster);
+      return this.$route.params.monster;
     },
+  },
+  beforeRouteEnter(to, from, next) {
+    // called before the route that renders this component is confirmed.
+    // does NOT have access to `this` component instance,
+    // because it has not been created yet when this guard is called!
+    console.log('beforeRouteEnter');
+    console.log('to');
+    console.dir(to);
+    console.log('from');
+    console.dir(from);
+
+    next();
+  },
+  beforeRouteUpdate(to, from, next) {
+    // react to route changes...
+    // don't forget to call next()
+    console.log('beforeRouteUpdate');
+    console.log('to');
+    console.dir(to);
+    console.log('from');
+    console.dir(from);
+    console.log(this.$route.params);
+
+    next();
   },
   methods: {
     clickMonsterContentTypesNavItem: function clickMonsterContentTypesNavItem(
@@ -43,9 +68,9 @@ export default {
       this.$store.commit('clearEntry');
     },
     getContentTypeIdsString: function getContentTypeIdsString() {
-      return process.env[
-        `VUE_APP_CONTENT_TYPE_NAV_ITEMS_${this.curMonster.toUpperCase()}`
-      ];
+      const envVarKey = `VUE_APP_CONTENT_TYPE_NAV_ITEMS_${this.curMonster.toUpperCase()}`;
+      const envVar = process.env[envVarKey];
+      return envVar;
     },
     getContentTypeIds: function getContentTypeIds(monster) {
       return this.processContentTypeIds(this.getContentTypeIdsString(monster));
@@ -57,9 +82,20 @@ export default {
         .map((a) => ({ text: a[0], contentTypeId: a[1] }));
     },
   },
+  mounted() {
+    this.monsterContentTypeIds = this.getContentTypeIds(this.curMonster);
+  },
   watch: {
     curMonster(newMonster) {
       this.monsterContentTypeIds = this.getContentTypeIds(newMonster);
+    },
+    $route(to, from) {
+      console.log('beforeRouteUpdate');
+      console.log('to');
+      console.dir(to);
+      console.log('from');
+      console.dir(from);
+      console.log(this.$route.params);
     },
   },
   components: {
