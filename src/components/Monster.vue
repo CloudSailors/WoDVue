@@ -31,34 +31,10 @@ export default {
   },
   computed: {
     curMonster() {
-      console.log('COMPUTING CUR MONSTER');
-      console.dir(this.$route.params.monster);
-      return this.$route.params.monster;
+      const curMonster = this.$route.params.monster;
+      this.$store.commit('updateMonster', curMonster);
+      return curMonster;
     },
-  },
-  beforeRouteEnter(to, from, next) {
-    // called before the route that renders this component is confirmed.
-    // does NOT have access to `this` component instance,
-    // because it has not been created yet when this guard is called!
-    console.log('beforeRouteEnter');
-    console.log('to');
-    console.dir(to);
-    console.log('from');
-    console.dir(from);
-
-    next();
-  },
-  beforeRouteUpdate(to, from, next) {
-    // react to route changes...
-    // don't forget to call next()
-    console.log('beforeRouteUpdate');
-    console.log('to');
-    console.dir(to);
-    console.log('from');
-    console.dir(from);
-    console.log(this.$route.params);
-
-    next();
   },
   methods: {
     clickMonsterContentTypesNavItem: function clickMonsterContentTypesNavItem(
@@ -88,14 +64,6 @@ export default {
   watch: {
     curMonster(newMonster) {
       this.monsterContentTypeIds = this.getContentTypeIds(newMonster);
-    },
-    $route(to, from) {
-      console.log('beforeRouteUpdate');
-      console.log('to');
-      console.dir(to);
-      console.log('from');
-      console.dir(from);
-      console.log(this.$route.params);
     },
   },
   components: {
