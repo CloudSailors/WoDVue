@@ -8,6 +8,15 @@ export default {
   props: {
     msg: String,
   },
+  async mounted() {
+    if (!sessionStorage.first) {
+      sessionStorage.first = 1;
+      this.$router.push({ path: '/monsters/vampire' });
+      this.$store.commit('updateCurContentTypeId', 'clans');
+      await this.$store.dispatch('loadEntriesByContentTypeIdAsync', 'clans');
+      this.$store.commit('updateCurEntryById', 'd6oMK1Mfpcl9f4AzYyWrf');
+    }
+  },
 };
 </script>
 

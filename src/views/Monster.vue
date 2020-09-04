@@ -16,11 +16,11 @@ export default {
     return {};
   },
   mounted() {
-    this.$store.commit('updateMonster', this.monster);
+    // this.$store.commit('updateMonster', this.monster);
   },
   watch: {
     $route() {
-      this.$store.commit('updateMonster', this.monster);
+      // this.$store.commit('updateMonster', this.monster);
     },
   },
   components: {

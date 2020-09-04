@@ -36,6 +36,11 @@ export default new Vuex.Store({
     updateCurEntryId(state, newCurEntryId) {
       state.curEntryId = newCurEntryId;
     },
+    updateCurEntryById(state, entryId) {
+      const contentEntries = state.allEntries[state.curContentTypeId];
+      const entryIndex = contentEntries.findIndex((e) => e.id === entryId);
+      state.curEntryData = contentEntries[entryIndex];
+    },
     updateCurEntryData(state, newEntryData) {
       state.curEntryData = newEntryData;
     },

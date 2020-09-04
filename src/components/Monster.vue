@@ -58,7 +58,9 @@ export default {
   },
   computed: {
     curMonster() {
-      return this.$store.getters.curMonster;
+      const curMonster = this.$route.params.monster;
+      this.$store.commit('updateMonster', curMonster);
+      return curMonster;
     },
   },
   methods: {
@@ -69,9 +71,9 @@ export default {
       this.$store.commit('clearEntry');
     },
     getContentTypeIdsString: function getContentTypeIdsString() {
-      return process.env[
-        `VUE_APP_CONTENT_TYPE_NAV_ITEMS_${this.curMonster.toUpperCase()}`
-      ];
+      const envVarKey = `VUE_APP_CONTENT_TYPE_NAV_ITEMS_${this.curMonster.toUpperCase()}`;
+      const envVar = process.env[envVarKey];
+      return envVar;
     },
     getContentTypeIds: function getContentTypeIds(monster) {
       return this.processContentTypeIds(this.getContentTypeIdsString(monster));
@@ -82,6 +84,9 @@ export default {
         .map((ni) => ni.split('|'))
         .map((a) => ({ text: a[0], contentTypeId: a[1] }));
     },
+  },
+  mounted() {
+    this.monsterContentTypeIds = this.getContentTypeIds(this.curMonster);
   },
   watch: {
     curMonster(newMonster) {
